@@ -18,7 +18,7 @@ func main(){
 	go func() {
 		ch <- 11
 	}()
-	v := <- ch //阻塞等待线程，无缓冲通道是同步的，取出就一定要等待赋值，赋值就一定要等待取出
+	v := <- ch //线程阻塞，等待线程，无缓冲通道是同步的，取出就一定要等待赋值，赋值就一定要等待取出
 	fmt.Println(v)
 
 	ch2 := make(chan int)
@@ -34,6 +34,7 @@ func main(){
 		v := <- ch3
 		fmt.Println(v)
 	}()
+	fmt.Println("不阻塞")
 	time.Sleep(1 * time.Second)
 	fmt.Println("主goroutine已结束")
 }

@@ -14,15 +14,15 @@ func main(){
 }
 
 func producer(ch chan<- int){
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		ch <- i
 		fmt.Println("send:", i)
 	}
 }
 
 func consumer(ch <-chan int){
-	for i := 0; i < 10; i++ {
-		<- ch
+	for i := 0; i < 100; i++ {
+		i = <- ch
 		fmt.Println("receive:", i)
 	}
 }
