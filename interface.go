@@ -16,7 +16,7 @@ type Student struct {
 	score float64
 }
 
-func (s *Student) SayHi() {
+func (s *Student) SayHi() { //这里是指针类型实现了接口，所以初始化结构体取指针
 	fmt.Printf("student [%s, %f] say hi\n", s.name, s.score)
 }
 

@@ -23,7 +23,7 @@ func scheduleTest() (error) {
 	//err := c.AddFunc("*/5 * * * * *", func() {
 	//	fmt.Println("schedule func")
 	//})
-	err := c.AddJob("*/5 * * * * *", myjob)
+	err := c.AddJob("*/20 * * * * *", myjob)
 	if err != nil {
 		return err
 	}

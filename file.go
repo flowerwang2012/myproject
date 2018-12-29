@@ -1,12 +1,8 @@
 package main
 
-import "os"
+import "net/http"
 
 func main() {
-
-}
-
-func Content2string() (result string, err error) {
-	f, err := os.Open("./data.json")
-
+	http.Handle("/", http.FileServer(http.Dir('.')))
+	http.ListenAndServe(":8080", nil);
 }
