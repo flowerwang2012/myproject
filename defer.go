@@ -7,19 +7,19 @@ func main() {
 	fmt.Println(Parse())
 }
 
-func Parse()(err error){
-	defer func() {
-		//选择性的recover
+func Parse() (err error) {
+	defer func() { //延迟执行语句，函数结束时执行，实现错误捕捉和恢复
+		//recover，宕机恢复
 		switch p := recover(); p {
 		case nil:
 		case "what":
 			err = fmt.Errorf("internal error")
-			//fmt.Println(err)
 		default:
 			panic(p)
-
 		}
 	}()
-	panic("what")
+	defer fmt.Println("延迟执行栈，这个先出栈")
+	panic("what") //宕机
+	fmt.Println(1)
 	return err
 }

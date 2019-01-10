@@ -1,6 +1,9 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+	"errors"
+)
 
 func main() {
 	//http.Handle("/hello", )
@@ -9,4 +12,5 @@ func main() {
 		writer.Write([]byte("world"))
 	})
 	http.ListenAndServe(":8080", nil)
+	errors.New("abc")
 }
