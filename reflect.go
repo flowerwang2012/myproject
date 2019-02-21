@@ -33,12 +33,12 @@ func main() {
 	u2.Name = "sam"
 	ru1 := reflect.ValueOf(u1).Elem()
 	ru2 := reflect.ValueOf(u2).Elem()
-	fmt.Println(ru1.NumField())
+	ru1Type := ru1.Type()
 	for i := 0; i < ru1.NumField(); i ++ {
 		v := ru1.Field(i)
 		t := v.Type()
 		if t.Kind() == reflect.String && v.String() != "" {
-			fmt.Println(v.String())
+			fmt.Println(ru1Type.Field(i).Name, v.String()) //字段名 字段值
 			ru2.Field(i).SetString(v.String())
 		}
 	}
