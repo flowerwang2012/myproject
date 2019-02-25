@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"reflect"
 )
+
 //https://www.cnblogs.com/skymyyang/p/7690837.html
 type User struct {
-	Id   string
-	Name string
-	Age  string
+	Id   string `json:"id" bson:"id"`
+	Name string `json:"name" bson:"name"`
+	Age  string `json:"age" bson:"age"`
 }
 
 func (u User) Hello() {
@@ -40,6 +41,7 @@ func main() {
 		v := v1.Field(i)
 		if v.Type().Kind() == reflect.String && v.String() != "" {
 			fmt.Println(t1.Field(i).Name, v.String()) //字段名 字段值
+			fmt.Println(t1.Field(i).Tag.Get("json")) //字段tag 可以用于生成Swagger文档等
 			v2.Field(i).SetString(v.String())
 		}
 	}
