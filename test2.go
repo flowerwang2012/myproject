@@ -1,16 +1,26 @@
 package main
 
 import (
-	"net/http"
-	"errors"
+	"fmt"
 )
 
 func main() {
-	//http.Handle("/hello", )
-	http.HandleFunc("/world", func(writer http.ResponseWriter, request *http.Request) {
-		writer.WriteHeader(200)
-		writer.Write([]byte("world"))
-	})
-	http.ListenAndServe(":8080", nil)
-	errors.New("abc")
+	var (
+		x = 91
+		y = 100
+		count = 0
+		//yc = 0
+	)
+	for y > 0 {
+		if x > 100 {
+			x = x - 10
+			y--
+			fmt.Println(x,y,count)
+		} else {
+			x++
+		}
+		count++
+	}
+	fmt.Println(count)
+	//fmt.Println(yc)
 }
