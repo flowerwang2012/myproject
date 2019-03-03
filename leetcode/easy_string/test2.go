@@ -7,15 +7,17 @@ func main() {
 	arr := []byte(s)
 	var index int
 	for i := 0; i < len(arr); i ++ {
-		index = i
 		repeat := false
-		for j := i + 1; j < len(arr); j ++ {
-			if arr[i] == arr[j] {
-				repeat = true
-				break
+		for j := 0; j < len(arr); j ++ {
+			if i != j {
+				if arr[i] == arr[j] {
+					repeat = true
+					break
+				}
 			}
 		}
 		if !repeat {
+			index = i
 			break
 		}
 	}

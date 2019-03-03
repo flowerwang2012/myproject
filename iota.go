@@ -14,12 +14,12 @@ func main() {
 		winter
 	)
 	const (
-		a weapon = 1 << iota // 把1左移0位
+		a weapon = 5 << iota // 把5左移0位
 		b
 		c
 		d
 	)
 	fmt.Printf("%d %d %d %d\n", spring, summer, autumn, winter) //0 1 2 3
-	fmt.Printf("%d %d %d %d\n", a, b, c, d) //1 2 4 8
-	fmt.Printf("%b %b %b %b\n", a, b, c, d) //二进制1 10 100 1000，2的0次方...
+	fmt.Printf("%d %d %d %d\n", a, b, c, d) //5 10 20 40
+	fmt.Printf("%b %b %b %b\n", a, b, c, d) //二进制101 1010 10100 101000
 }

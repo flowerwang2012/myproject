@@ -1,4 +1,4 @@
-package easy_array
+package main
 
 import "fmt"
 // 存在重复

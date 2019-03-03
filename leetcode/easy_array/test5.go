@@ -1,7 +1,7 @@
-package easy_array
+package main
 
 import "fmt"
-// 只出现一次的数字
+// 只出现一次的数字 每个数都要跟除自身之外的数相比较
 func main() {
 	nums := []int{1,2,1,4,2}
 	var num int

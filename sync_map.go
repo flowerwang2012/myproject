@@ -2,7 +2,6 @@ package main
 
 import (
 	"sync"
-	"time"
 	"fmt"
 )
 
@@ -24,17 +23,21 @@ func main() {
 	//time.Sleep(2 * time.Second)
 
 	var m sync.Map
+	var wg sync.WaitGroup
+	wg.Add(2)
 	go func() {
+		defer wg.Done()
 		for i := 0; i < 1000; i++ {
 			m.Store(i,i)
 		}
 	}()
 	go func() {
+		defer wg.Done()
 		for i := 0; i < 1000; i++ {
 			m.Load(i)
 		}
 	}()
-	time.Sleep(2 * time.Second)
+	wg.Wait()
 	m.Range(func(k, v interface{}) bool {
 		fmt.Println(k, v)
 		return true

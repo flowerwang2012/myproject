@@ -2,8 +2,8 @@ package main
 
 import (
 	"runtime"
-	"sync"
 	"fmt"
+	"sync"
 )
 /*
 在操作系统中，有两个重要的概念：一个是进程、一个是线程。
@@ -15,6 +15,8 @@ go语言中并发指的是让某个函数独立于其他函数运行的能力，
 所以并发的概念和并行不一样，并行指的是在不同的物理处理器上同时执行不同的代码片段，并行可以同时做很多事情，而并发是同时管理很多事情，因为操作系统和硬件的总资源比较少，所以并发的效果要比并行好的多，使用较少的资源做更多的事情，也是Go语言提倡的。
 */
 func main() {
+	fmt.Println(runtime.NumCPU()) //cpu处理器数量
+	fmt.Println(runtime.NumGoroutine()) //运行时的goroutine数量
 	runtime.GOMAXPROCS(1)//设置逻辑处理器
 	var wg sync.WaitGroup
 	wg.Add(2)

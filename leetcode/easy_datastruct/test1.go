@@ -22,14 +22,14 @@ func (ll *LinkedList) add(num int) {
 	if currentNode == nil {
 		ll.head = node
 	} else {
-		for currentNode.next != nil {
+		for currentNode.next != nil { //找出最后一个节点
 			currentNode = currentNode.next
 		}
 		currentNode.next = node
 	}
 	ll.length++
 }
-
+// 获取节点的值，需要遍历节点
 func (ll *LinkedList) get(index int) (num int, err error) {
 	if ll.length == 0 {
 		err = errors.New("empty list")
@@ -48,7 +48,7 @@ func (ll *LinkedList) get(index int) (num int, err error) {
 	}
 	return currentNode.data, nil
 }
-// 删除链表中的节点
+// 删除链表中的节点，传入节点的值
 func (ll *LinkedList) remove(num int) (err error) {
 	if ll.length == 0 {
 		err = errors.New("empty list")

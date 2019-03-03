@@ -23,12 +23,17 @@ func main() {
 
 	//超时取消 context.WithTimeout
 	ctx, cancel := context.WithTimeout(context.Background(), 4*time.Second)
-	defer cancel()
+	defer cancel() //cancel函数在这里的意义不大，所以用defer延迟函数去执行，可以用占位符_取代cancel返回值，也能正常执行
 
 	fmt.Println("Hey, I'm going to do some work")
 
 	wg.Add(1)
-	go work(ctx)
+	go func() {
+		defer wg.Done()
+		if err := work(ctx); err != nil {
+			fmt.Println(err.Error())
+		}
+	}()
 	wg.Wait()
 
 	fmt.Println("Finished. I'm going home")
@@ -58,8 +63,6 @@ var (
 )
 
 func work(ctx context.Context) error {
-	defer wg.Done()
-
 	for i := 0; i < 10; i++ {
 		select {
 		case <-time.After(1 * time.Second):

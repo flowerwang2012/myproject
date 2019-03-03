@@ -1,4 +1,4 @@
-package easy_array
+package main
 
 import "fmt"
 //26. 删除排序数组中的重复项 因为数组已经排序了，先找不同的，按顺序放进数组里

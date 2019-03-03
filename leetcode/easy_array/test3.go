@@ -1,4 +1,4 @@
-package easy_array
+package main
 
 import "fmt"
 //旋转数组 每次移动1位

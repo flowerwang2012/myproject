@@ -1,4 +1,4 @@
-package runner
+package main
 
 import (
 	"errors"
@@ -16,10 +16,10 @@ var ErrInterrupt = errors.New("执行者被中断")
 //一个执行者，可以执行任何任务，但是这些任务是限制完成的，
 //该执行者可以通过发送终止信号终止它
 type Runner struct {
-	tasks     []func(int)      //要执行的任务
-	complete  chan error       //用于通知任务全部完成
-	timeout   <-chan time.Time //这些任务在多久内完成
-	interrupt chan os.Signal   //可以控制强制终止的信号
+	tasks     []func(int)      //要执行的任务，同步执行
+	complete  chan error       //结果通道，用于通知任务全部完成
+	timeout   <-chan time.Time //计时通道，这些任务在多久内完成
+	interrupt chan os.Signal   //信号通道，可以控制强制终止的信号
 }
 
 func New(tm time.Duration) *Runner {
@@ -58,13 +58,13 @@ func (r *Runner) isInterrupt() {
 // 两种情况，要么任务完成；要么到时间了，任务执行超时。
 // 任务完成又分两种情况，一种是没有执行完，但是收到了中断信号，中断了，这时返回中断错误；一种是顺利执行完成，这时返回nil。
 func (r *Runner) Start() error {
-	//希望接收哪些系统信号
+	//监听接收哪些系统信号
 	signal.Notify(r.interrupt, os.Interrupt)
 
 	go func() {
 		r.complete <- r.run()
 	}()
-
+	//多路复用
 	select {
 	case err := <-r.complete:
 		return err

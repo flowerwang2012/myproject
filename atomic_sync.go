@@ -15,8 +15,8 @@ var (
 
 func main() {
 	wg1.Add(2)
-	go incCount3()
-	go incCount3()
+	go incCount()
+	go incCount()
 	wg1.Wait()
 	fmt.Println(count)
 }
