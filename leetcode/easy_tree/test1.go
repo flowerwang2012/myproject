@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"container/list"
 )
 
 type Tree struct {
@@ -63,7 +64,8 @@ func (t *Tree) add(node *Node) {
 		}
 	}
 }
-// 先序遍历
+//先序遍历 先根后左最后右
+//递归
 func preorder(root *Node) {
 	if root != nil {
 		fmt.Print(root.data)
@@ -72,7 +74,27 @@ func preorder(root *Node) {
 		preorder(root.right)
 	}
 }
-// 中序遍历
+//非递归 解决思路：假设只有左子树的情况，如何遍历，其他两种遍历也是参考这个思路
+func preorder2(root *Node) {
+	t := root
+	l := list.New()
+	for t != nil || l.Len() != 0 {
+		for t != nil {
+			fmt.Print(t.data)
+			fmt.Print(" ")
+			l.PushBack(t)
+			t = t.left
+		}
+		if l.Len() != 0 {
+			v := l.Back()
+			t = v.Value.(*Node)
+			t = t.right
+			l.Remove(v)
+		}
+	}
+}
+//中序遍历 先左后根最后右
+//递归
 func inorder(root *Node) {
 	if root != nil {
 		inorder(root.left)
@@ -81,13 +103,56 @@ func inorder(root *Node) {
 		inorder(root.right)
 	}
 }
-// 后序遍历
+//非递归
+func inorder2(root *Node) {
+	t := root
+	l := list.New()
+	for t != nil || l.Len() != 0 {
+		for t != nil {
+			l.PushBack(t)
+			t = t.left
+		}
+		if l.Len() != 0 {
+			v := l.Back()
+			t = v.Value.(*Node)
+			fmt.Print(t.data)
+			fmt.Print(" ")
+			t = t.right
+			l.Remove(v)
+		}
+	}
+}
+//后序遍历 先左后右最后根
+//递归
 func afterorder(root *Node) {
 	if root != nil {
 		afterorder(root.left)
 		afterorder(root.right)
 		fmt.Print(root.data)
 		fmt.Print(" ")
+	}
+}
+//非递归
+func afterorder2(root *Node) {
+	t := root
+	l := list.New()
+	var previsited *Node //访问过的左右节点
+	for t != nil || l.Len() != 0 {
+		for t != nil {
+			l.PushBack(t)
+			t = t.left
+		}
+		v := l.Back()
+		top := v.Value.(*Node)
+
+		if (top.left == nil && top.right == nil) || (top.right == nil && top.left == previsited) || top.right == previsited {
+			fmt.Print(top.data)
+			fmt.Print(" ")
+			previsited = top
+			l.Remove(v)
+		} else {
+			t = top.right
+		}
 	}
 }
 // 最大深度
@@ -176,4 +241,18 @@ func main() {
 	fmt.Println()
 	fmt.Println(isValidBST(t3.root))
 	levelOrder(t3.root)
+
+	nums4 := []interface{}{0, 1, 2, 3, 4, 5, 6}
+	t4 := initTree(nums4)
+	preorder(t4.root)
+	fmt.Println()
+	preorder2(t4.root)
+	fmt.Println()
+	inorder(t4.root)
+	fmt.Println()
+	inorder2(t4.root)
+	fmt.Println()
+	afterorder(t4.root)
+	fmt.Println()
+	afterorder2(t4.root)
 }
