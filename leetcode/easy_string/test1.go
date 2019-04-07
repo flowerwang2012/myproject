@@ -11,4 +11,15 @@ func main() {
 		result = result + c
 	}
 	fmt.Println(result)
+	Reverse("hello")
+}
+
+func Reverse(s string) {
+	b := []byte(s)
+	for i := 0; i < (len(b)+1)/2; i ++ {
+		tmp := b[i]
+		b[i] = b[len(b)-1-i]
+		b[len(b)-1-i] = tmp
+	}
+	fmt.Println(string(b))
 }

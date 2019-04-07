@@ -42,27 +42,34 @@ func initTree(datas []interface{}) *Tree {
 	return t
 }
 // 二叉搜索树
-func (t *Tree) add(node *Node) {
-	if t.root == nil {
-		t.root = node
-	} else {
+func initBSTree(datas []interface{}) *Tree {
+	t := new(Tree)
+	nodes := make([]*Node, len(datas))
+	for i, v := range datas {
+		n := newNode(v)
+		nodes[i] = n
+	}
+	t.root = nodes[0]
+	for i := 1; i < len(nodes); i++ {
 		cur := t.root
+		node := nodes[i]
 		for cur != nil {
 			if cur.data.(int) > node.data.(int) {
 				if cur.left == nil {
 					cur.left = node
-					return
+					break
 				}
 				cur = cur.left
 			} else {
 				if cur.right == nil {
 					cur.right = node
-					return
+					break
 				}
 				cur = cur.right
 			}
 		}
 	}
+	return t
 }
 //先序遍历 先根后左最后右
 //递归
@@ -228,12 +235,10 @@ func main() {
 	fmt.Println(maxDepth(t.root))
 
 	nums2 := []interface{}{2, 1, 3, 4}
-	t2 := new(Tree)
-	for _, num := range nums2 {
-		node := newNode(num)
-		t2.add(node)
-	}
+	t2 := initBSTree(nums2)
 	preorder(t2.root)
+	fmt.Println()
+	inorder(t2.root)
 	fmt.Println()
 	nums3 := []interface{}{3, 2, 15, nil, nil, 7, 20}
 	t3 := initTree(nums3)

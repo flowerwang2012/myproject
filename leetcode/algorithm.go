@@ -1,6 +1,34 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"encoding/hex"
+	"crypto/rand"
+	math "math/rand"
+	"time"
+)
+
+// 迭代的是人，递归的是神
+//–L. Peter Deutsch
+
+// 一个数的阶乘
+func factorial(n int) int {
+	if n <= 1 {
+		return 1
+	}
+	return n * factorial(n-1)
+}
+
+// 汉诺塔问题
+func hanNuo(n int, a, b, c string) {
+	if n == 1 { //盘子只有一个时候，从A移动到C，这也是递归的终止条件
+		fmt.Printf("将盘子【%d】从 %s 移动到 %s \n", n, a, c)
+	} else {
+		hanNuo(n-1, a, c, b) //将a柱子上的从上到下n-1个盘移到b柱子上
+		fmt.Printf("将盘子【%d】从 %s 移动到 %s \n", n, a, c)
+		hanNuo(n-1, b, a, c) //将b柱子上的n-1个盘子移到c柱子上
+	}
+}
 
 //给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。
 //你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。
@@ -199,4 +227,28 @@ func main() {
 	fmt.Println(ret2)
 	Test3()
 	Test4()
+	fmt.Println(factorial(4))
+	hanNuo(3, "a", "b", "c")
+
+	id := GenerateRandomStringHex(2)
+	fmt.Println(id)
+
+	math.Seed(time.Now().Unix())
+	fmt.Println(math.Intn(4))
+}
+
+func GenerateRandomBytes(n int) ([]byte, error) {
+	b := make([]byte, n)
+	_, err := rand.Read(b)
+	// Note that err == nil only if we read len(b) bytes.
+	if err != nil {
+		return nil, err
+	}
+
+	return b, nil
+}
+func GenerateRandomStringHex(s int) string {
+	b, _ := GenerateRandomBytes(s)
+	fmt.Println(string(b))
+	return hex.EncodeToString(b)
 }

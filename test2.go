@@ -27,10 +27,11 @@ func main() {
 	fmt.Println(quickSort(nums, 0, len(nums)-1))
 }
 
+//进制转换+常量+位运算
 func HashCode(key string) int {
 	var length = 16
 	var index = 0
-	index = int(key[0])
+	index = int(key[0]) //十进制
 	for  k:= 0; k< len(key) ; k++  {
 		index *= (1103515245 + int(key[k]))
 	}
