@@ -75,7 +75,7 @@ func (ll *LinkedList) remove(num int) (err error) {
 func (ll *LinkedList) size() int {
 	return ll.length
 }
-// 遍历链表的节点
+// 遍历链表的节点 循环遍历
 func (ll *LinkedList) forNode() {
 	if ll.head == nil {
 		fmt.Println("链表为空")
@@ -87,6 +87,15 @@ func (ll *LinkedList) forNode() {
 		node = node.next
 	}
 	fmt.Println()
+}
+// 遍历链表的节点 递归遍历
+func (node *Node) showNode() {
+	if node == nil {
+		return
+	}
+	fmt.Print(node.data)
+	node.next.showNode()
+	return
 }
 // 反转链表
 func (ll *LinkedList) reverse() (err error) {
@@ -130,15 +139,6 @@ func merge(head1 *Node, head2 *Node) *Node {
 		head.next = merge(head1, head2.next)
 	}
 	return head
-}
-
-func (node *Node) showNode() {
-	if node == nil {
-		return
-	}
-	fmt.Print(node.data)
-	node.next.showNode()
-	return
 }
 
 // 1 2 2 1
@@ -255,6 +255,7 @@ func main() {
 	node := merge(l1.head, l2.head)
 	node.showNode()
 	fmt.Print("\n")
+
 	// 请判断一个链表是否为回文链表
 	l3 := new(LinkedList)
 	arr3 := []int{1, 2, 3, 2, 1}
@@ -262,8 +263,10 @@ func main() {
 		l3.add(num)
 	}
 	fmt.Println(l3.isPalindrome())
+
 	// 判断环形链表
 	fmt.Println(ll.isCycleLinkedList())
+
 	// 生成链表
 	l4 := new(LinkedList)
 	nums := []int{1, 3, 1, 5, 8, 3}
