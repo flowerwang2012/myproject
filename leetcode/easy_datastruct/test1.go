@@ -75,6 +75,19 @@ func (ll *LinkedList) remove(num int) (err error) {
 func (ll *LinkedList) size() int {
 	return ll.length
 }
+// 遍历链表的节点
+func (ll *LinkedList) forNode() {
+	if ll.head == nil {
+		fmt.Println("链表为空")
+		return
+	}
+	node := ll.head
+	for node != nil {
+		fmt.Print(node.data)
+		node = node.next
+	}
+	fmt.Println()
+}
 // 反转链表
 func (ll *LinkedList) reverse() (err error) {
 	if ll.length == 0 {
@@ -183,6 +196,27 @@ func (ll *LinkedList) isCycleLinkedList() bool {
 	return false
 }
 
+func removeReplicationNode(head *Node) {
+	node := head
+	preNode := head
+	m := make(map[int]*Node)
+	for node != nil {
+		if _, ok := m[node.data]; ok {
+			node = node.next
+		} else {
+			m[node.data] = node
+			if node == head {
+				preNode = node
+			} else {
+				preNode.next = node
+				preNode = node
+				node = node.next
+			}
+		}
+	}
+	preNode.next = nil
+}
+
 func main() {
 	var err error
 	// 生成链表
@@ -191,40 +225,22 @@ func main() {
 	for _, num := range arr {
 		ll.add(num)
 	}
-	for i := 0; i < ll.length; i++ {
-		num, err := ll.get(i)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Print(num)
-	}
-	fmt.Print("\n")
+	ll.forNode()
+
 	// 删除链表中的节点
 	err = ll.remove(2)
 	if err != nil {
 		panic(err)
 	}
-	for i := 0; i < ll.length; i++ {
-		num, err := ll.get(i)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Print(num)
-	}
-	fmt.Print("\n")
+	ll.forNode()
+
 	// 反转链表
 	err = ll.reverse()
 	if err != nil {
 		panic(err)
 	}
-	for i := 0; i < ll.length; i++ {
-		num, err := ll.get(i)
-		if err != nil {
-			panic(err)
-		}
-		fmt.Print(num)
-	}
-	fmt.Print("\n")
+	ll.forNode()
+
 	// 合并两个有序链表
 	arr1 := []int{1, 2, 4}
 	arr2 := []int{1, 3, 4}
@@ -239,9 +255,6 @@ func main() {
 	node := merge(l1.head, l2.head)
 	node.showNode()
 	fmt.Print("\n")
-	// 递归求和
-	sum := getsum(10)
-	fmt.Println(sum)
 	// 请判断一个链表是否为回文链表
 	l3 := new(LinkedList)
 	arr3 := []int{1, 2, 3, 2, 1}
@@ -251,13 +264,15 @@ func main() {
 	fmt.Println(l3.isPalindrome())
 	// 判断环形链表
 	fmt.Println(ll.isCycleLinkedList())
-}
-
-func getsum(i int) int {
-	if i == 1 {
-		return 1
-	} else {
-		sum := i + getsum(i-1)
-		return sum
+	// 生成链表
+	l4 := new(LinkedList)
+	nums := []int{1, 3, 1, 5, 8, 3}
+	for _, num := range nums {
+		l4.add(num)
 	}
+	l4.forNode()
+
+	// 删除链表重复元素
+	removeReplicationNode(l4.head)
+	l4.forNode()
 }
