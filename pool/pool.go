@@ -44,7 +44,7 @@ func New(f func() (io.Closer, error), size int) (*Pool, error) {
 // 获取资源 读操作 没有资源阻塞等待其他goroutine释放资源
 func (p *Pool) Acquire() (io.Closer, error) {
 	select {
-	case r, ok := <-p.res:
+	case r, ok := <-p.res: //如果通道没有关闭，那第二个参数为true，否则为false
 		fmt.Println("Acquire:共享资源")
 		if !ok {
 			return nil, ErrPoolClosed

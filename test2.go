@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	var (
@@ -31,9 +33,9 @@ func main() {
 func HashCode(key string) int {
 	var length = 16
 	var index = 0
-	index = int(key[0]) //十进制
-	for  k:= 0; k< len(key) ; k++  {
-		index *= (1103515245 + int(key[k]))
+	for k := 0; k < len(key); k++ {
+		fmt.Println(int(key[k]))
+		index *= (1103515245 + int(key[k])) //常量+十进制
 	}
 	index >>= 27
 	index &= length - 1

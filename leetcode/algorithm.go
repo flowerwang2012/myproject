@@ -2,10 +2,6 @@ package main
 
 import (
 	"fmt"
-	"encoding/hex"
-	"crypto/rand"
-	math "math/rand"
-	"time"
 )
 
 // 迭代的是人，递归的是神
@@ -229,26 +225,4 @@ func main() {
 	Test4()
 	fmt.Println(factorial(4))
 	hanNuo(3, "a", "b", "c")
-
-	id := GenerateRandomStringHex(2)
-	fmt.Println(id)
-
-	math.Seed(time.Now().Unix())
-	fmt.Println(math.Intn(4))
-}
-
-func GenerateRandomBytes(n int) ([]byte, error) {
-	b := make([]byte, n)
-	_, err := rand.Read(b)
-	// Note that err == nil only if we read len(b) bytes.
-	if err != nil {
-		return nil, err
-	}
-
-	return b, nil
-}
-func GenerateRandomStringHex(s int) string {
-	b, _ := GenerateRandomBytes(s)
-	fmt.Println(string(b))
-	return hex.EncodeToString(b)
 }

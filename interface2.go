@@ -8,7 +8,7 @@ type Invoke interface {
 // 结构体实现接口
 type Struct struct {
 }
-func (s *Struct) Call() {
+func (s Struct) Call() { //Struct结构体实现了接口，所以实例化结构体（也就是创建对象）
 	fmt.Println("from struct")
 }
 // 函数体实现接口
@@ -20,7 +20,7 @@ func (f FuncCaller) Call() {
 }
 func main() {
 	var invoke Invoke
-	invoke = new(Struct)
+	invoke = new(Struct) //创建对象，invoke是接口类型的引用
 	invoke.Call()
 	var f FuncCaller
 	f = func() {

@@ -32,7 +32,8 @@ func incCount() {
 	}
 }
 
-//留意这里atomic.LoadInt32和atomic.StoreInt32两个函数，一个读取int32类型变量的值，一个是修改int32类型变量的值，这两个都是原子性的操作，Go已经帮助我们在底层使用加锁机制，保证了共享资源的同步和安全，所以我们可以得到正确的结果
+// 留意这里atomic.LoadInt32和atomic.StoreInt32两个函数，一个读取int32类型变量的值，一个是修改int32类型变量的值，这两个都是原子性的操作
+// Go已经帮助我们在底层使用加锁机制，保证了共享资源的同步和安全，所以我们可以得到正确的结果
 func incCount2() {
 	defer wg1.Done()
 	for i := 0; i < 2; i++ {
