@@ -49,7 +49,7 @@ func syncChannel() {
 }
 func selectCase(c chan int) {
 	//forEnd: //break forEnd 执行到这里
-	for {	// 没有for，select只会执行一次，但也不能让这个协程一直for循环下去，需要退出for语句，结束协程
+	for {	// 没有for，select只会执行一次（一直阻塞直到case命中执行），但也不能让这个协程一直for循环下去，需要退出for语句，结束协程
 		select {
 		case i := <-c: // case里的代码块，没有执行完毕，不能往通道写数据
 			if i == -1 {
@@ -64,4 +64,12 @@ func selectCase(c chan int) {
 	}
 	forEnd: //goto forEnd 执行到这里
 	fmt.Println("协程selectCase结束")
+}
+
+func selectCase2(c chan int) {
+	select {
+	case i := <-c: //一直阻塞直到case命中执行
+		fmt.Println("数据", i)
+	}
+	fmt.Println("协程selectCase2结束")
 }

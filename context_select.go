@@ -11,7 +11,8 @@ import (
 // 所有基于这个Context或者衍生的子Context都会收到通知，这时就可以进行清理操作了，最终释放goroutine，
 // 这就优雅的解决了goroutine启动后不可控的问题
 func main() {
-	// context.Background() 返回一个空的Context，这个空的Context一般用于整个Context树的根节点。
+	// context.Background() 返回一个空的Context，这个空的Context一般用于整个Context树的根节点，这个空的Context不能被取消、没有值、也没有过期时间
+	// context.TODO() 与Background()的返回值一样，从字面理解就是你不确定使用什么context，就用TODO()，仅此而已
 	// 然后我们使用context.WithCancel(parent)函数，创建一个可取消的子Context，
 	// 然后当作参数传给goroutine使用，这样就可以使用这个子Context跟踪这个goroutine。
 	ctx, cancel := context.WithCancel(context.Background())

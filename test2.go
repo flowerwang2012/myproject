@@ -2,29 +2,30 @@ package main
 
 import (
 	"fmt"
+	"encoding/hex"
 )
 
 func main() {
-	var (
-		x = 91
-		y = 100
-		count = 0
-	)
-	for y > 0 {
-		if x > 100 {
-			x = x - 10
-			y--
-			fmt.Println(x,y,count)
-		} else {
-			x++
-		}
-		count++
-	}
+	//var (
+	//	x = 91
+	//	y = 100
+	//	count = 0
+	//)
+	//for y > 0 {
+	//	if x > 100 {
+	//		x = x - 10
+	//		y--
+	//		fmt.Println(x,y,count)
+	//	} else {
+	//		x++
+	//	}
+	//	count++
+	//}
 
 	s := "hello"
 	i := HashCode(s)
 	fmt.Println(i)
-
+	hex.EncodeToString([]byte(s))
 	nums := []int{6, 1, 2, 7, 9, 3, 4, 5, 10, 8}
 	fmt.Println(quickSort(nums, 0, len(nums)-1))
 }
