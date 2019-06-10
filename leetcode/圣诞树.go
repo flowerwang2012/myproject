@@ -7,7 +7,7 @@ var (
 	layerNum = 4
 )
 
-func main()  {
+func tree()  {
 	//fmt.Println("     🌲")
 	//fmt.Println("    🌲🌲")
 	//fmt.Println("   🌲🌲🌲")
