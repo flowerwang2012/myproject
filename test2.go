@@ -35,7 +35,7 @@ func HashCode(key string) int {
 	var length = 16
 	var index = 0
 	for k := 0; k < len(key); k++ {
-		fmt.Println(int(key[k]))
+		fmt.Println(int(key[k])) //十进制
 		index *= (1103515245 + int(key[k])) //常量+十进制
 	}
 	index >>= 27

@@ -19,7 +19,7 @@ func f1() {
 func main() {
 	runtime.GOMAXPROCS(1)
 	go f1()
-	runtime.Gosched() //main goroutine 让出cpu
+	runtime.Gosched() //main goroutine 回到运行队列
 	if b {
 		fmt.Println(a)
 	}

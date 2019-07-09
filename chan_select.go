@@ -18,6 +18,7 @@ func main() {
 	//time.Sleep(3 * time.Second)
 	//fmt.Println("所有监控已经停止")
 	syncChannel()
+	twoChannel()
 	time.Sleep(3 * time.Second)
 }
 
@@ -47,9 +48,18 @@ func syncChannel() {
 	fmt.Println("三个数据读取完毕")
 	c <- -1
 }
+
+func twoChannel() {
+	c := make(chan int)
+	c2 := make(chan int)
+	go selectCase2(c, c2)
+	c2<-123
+	time.Sleep(1*time.Second) //等待协程打印
+}
+
 func selectCase(c chan int) {
 	//forEnd: //break forEnd 执行到这里
-	for {	// 没有for，select只会执行一次（一直阻塞直到case命中执行），但也不能让这个协程一直for循环下去，需要退出for语句，结束协程
+	for {	// 没有for，select只会执行一次（同时监听多个case，直到某个case命中执行），但也不能让这个协程一直for循环下去，需要退出for语句，结束协程
 		select {
 		case i := <-c: // case里的代码块，没有执行完毕，不能往通道写数据
 			if i == -1 {
@@ -66,10 +76,12 @@ func selectCase(c chan int) {
 	fmt.Println("协程selectCase结束")
 }
 
-func selectCase2(c chan int) {
+func selectCase2(c, c2 chan int) {
 	select {
-	case i := <-c: //一直阻塞直到case命中执行
-		fmt.Println("数据", i)
+	case i := <-c: //同时监听多个case，直到某个case命中执行
+		fmt.Println("数据c", i)
+	case i := <-c2:
+		fmt.Println("数据c2", i)
 	}
 	fmt.Println("协程selectCase2结束")
 }

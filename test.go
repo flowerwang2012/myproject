@@ -1,43 +1,60 @@
 package main
 
 import (
-	"net/http"
-	"time"
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
 )
 
-func main() {
-	//for i := 0; i < 10; i ++ {
-	//	go Request()
-	//}
-	for i := 0; i < 100000; i++ {
-		Request(i)
-	}
-	time.Sleep(3 * time.Second)
+type A struct {
+	Name string
+}
+type CRJAuthRsp struct {
+	Errcode int    `json:"errcode"`
+	Errmsg  string `json:"errmsg"`
+	Data interface{} `json:"data"`
+}
+type CRJPerson struct {
+	FullName string `json:"fullName"`
+	IdNum string `json:"idNum"`
+	IdType string `json:"idType"`
+	Nation string `json:"nation"`
+	Sex string `json:"sex"`
+	BirthDate string `json:"birthDate"`
+	ExpiryDate string `json:"expiryDate"`
 }
 
-func Request(i int) {
-	var (
-		resp *http.Response
-		err  error
+func main() {
+	const (
+		mutexLocked = 1 << iota // mutex is locked
+		mutexWoken
+		mutexStarving
+		mutexWaiterShift = iota
 	)
-	fmt.Println(i)
-	req, _ := http.NewRequest("GET", "https://app.gzgjj.gov.cn/user/login?yhhm=440823199701186225&yhmm=%E5%8D%9C%E7%A7%8B%E8%B4%B5&dllx=5&version=1.0&key=876CF952CE39D0695E9F01667055D8D4", nil)
-	client := &http.Client{}
-	if resp, err = client.Do(req); err != nil {
-		fmt.Printf("request fail %s, %+v \n", err.Error(), req)
-		panic(err)
+	fmt.Println(mutexLocked, mutexWoken, mutexStarving, mutexWaiterShift)
+	str := "{\"data\":{\"fullName\":\"姓名\",\"idNum\":\"证件号码\",\"idType\":\"1001\",\"nation\":\"CHN\",\"sex\":\"1\",\"birthDate\":\"19930606\",\"expiryDate\":\"20281203\"},\"errcode\":0,\"errmsg\":\"\",\"hint\":\"1LR/F3fLDMYi\"}"
+	rsp := new(CRJAuthRsp)
+	if err := json.Unmarshal([]byte(str), rsp); err != nil {
+		fmt.Println(err)
 	}
-	defer resp.Body.Close()
-	b, err := ioutil.ReadAll(resp.Body)
+	b, _ := json.Marshal(rsp.Data)
+	p := new(CRJPerson)
+	err := json.Unmarshal(b, p)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
-	fmt.Println(string(b))
-	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		fmt.Printf("ebus http %s status code=%d \n", req.URL.Path, resp.StatusCode)
-		panic(err)
-	}
+	fmt.Println(p)
 
+	i := 0
+	s := string(i)
+	fmt.Println("s:", s)
+
+	sli := []int{0, 1, 2}
+	appendSlice(sli)
+	fmt.Println("值传递", sli)
+}
+
+func appendSlice(i []int) {
+	i[0] = 123
+	i = append(i, 123)
+	fmt.Println("after append", i)
 }
